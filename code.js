@@ -1,9 +1,9 @@
  "use strict";
- import images from "./gallery-items.js";
-
+import images from "./gallery-items.js";
+ 
+ const ulRef = document.querySelector('.js-gallery');
  const btnEl = document.querySelector('button[data-action ="close-lightbox"]');
  const divModalEl = document.querySelector('.lightbox__content');
- const ulRef = document.querySelector('.js-gallery');
  const modalImgRef = document.querySelector('.lightbox__image');
  const modalRef = document.querySelector('.lightbox');
  
@@ -30,7 +30,9 @@ function openGalleryClick(evt) {
          modalImgRef.src = evt.target.dataset.source;
          modalImgRef.alt = evt.target.alt;
   
-         modalRef.classList.add('is-open');
+  modalRef.classList.add('is-open');
+  
+  window.addEventListener("keyup", clickKey);
   // if (evt.target.nodeName !== 'IMG') {
   //   return;
   // }
@@ -41,14 +43,14 @@ function openGalleryClick(evt) {
   // }
  };
 function removeOpenImg(evt) {
-      evt.preventDefault();
     //   const currentOpenImg = document.querySelector('.lightbox.is-open');
     //  if (evt.target === evt.currentTarget) {
     //      return;
     //  }
         modalRef.classList.remove('is-open');
         modalImgRef.src = '';
-        modalImgRef.alt = '';
+  modalImgRef.alt = '';
+  window.removeEventListener("keyup", clickKey);
    
   };
 function closeLightbox(evt) {
@@ -56,3 +58,8 @@ function closeLightbox(evt) {
     removeOpenImg();
   } 
 };
+function clickKey(evt) {
+  if (evt.code === "Escape") {
+    removeOpenImg();
+  }
+}
