@@ -1,19 +1,58 @@
-"use strict";
-import images from "./gallery-items.js";
+ "use strict";
+ import images from "./gallery-items.js";
 
-const ulRef = document.querySelector('.js-gallery');
-const divEl = document.querySelector('.js-lightbox');
-const btnEl = document.querySelector('button[data-action ="close-lightbox"]');
-const divModalEl = document.querySelector('.lightbox__content');
-const overEl = document.querySelector('.lightbox__overlay');
-
-
-
+ const btnEl = document.querySelector('button[data-action ="close-lightbox"]');
+ const divModalEl = document.querySelector('.lightbox__content');
+ const ulRef = document.querySelector('.js-gallery');
+ const modalImgRef = document.querySelector('.lightbox__image');
+ const modalRef = document.querySelector('.lightbox');
+ 
 const createGalleryList = images.map(({ preview, original, description }) => {
     return `<li class="gallery__item"><a class="gallery__link"
     href="${original}">
-    <img class="gallery__image"src="${preview}"
+    <img loading="lazy" class="gallery__image" src="${preview}"
     data-source="${original}"
     alt="${description}"/></a></li>`;
 }).join('');
-ulRef.insertAdjacentHTML('beforeend', createGalleryList);
+
+ulRef.insertAdjacentHTML('afterbegin', createGalleryList);
+
+ulRef.addEventListener('click', openGalleryClick);
+btnEl.addEventListener('click', removeOpenImg);
+divModalEl.addEventListener('click', closeLightbox);
+
+function openGalleryClick(evt) {
+      evt.preventDefault();
+     if (!evt.target.classList.contains('gallery__image')) {
+     return;
+     }
+         
+         modalImgRef.src = evt.target.dataset.source;
+         modalImgRef.alt = evt.target.alt;
+  
+         modalRef.classList.add('is-open');
+  // if (evt.target.nodeName !== 'IMG') {
+  //   return;
+  // }
+  // if (evt.target.nodeName === 'IMG') {
+  //   modalRef.classList.add('is-open');
+  //    modalImgRef.src = evt.target.dataset.source;
+  //         modalImgRef.alt = evt.target.alt;
+  // }
+ };
+function removeOpenImg(evt) {
+      evt.preventDefault();
+    //   const currentOpenImg = document.querySelector('.lightbox.is-open');
+    //  if (evt.target === evt.currentTarget) {
+    //      return;
+    //  }
+        modalRef.classList.remove('is-open');
+        modalImgRef.src = '';
+        modalImgRef.alt = '';
+   
+  };
+function closeLightbox(evt) {
+  if (evt.target === evt.currentTarget) {
+    removeOpenImg();
+  } 
+}
