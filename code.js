@@ -55,4 +55,4 @@ function closeLightbox(evt) {
   if (evt.target === evt.currentTarget) {
     removeOpenImg();
   } 
-}
+};
