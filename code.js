@@ -33,6 +33,8 @@ function openGalleryClick(evt) {
   modalRef.classList.add('is-open');
   
   window.addEventListener("keyup", clickKey);
+
+
   // if (evt.target.nodeName !== 'IMG') {
   //   return;
   // }
@@ -42,14 +44,14 @@ function openGalleryClick(evt) {
   //         modalImgRef.alt = evt.target.alt;
   // }
  };
-function removeOpenImg(evt) {
+function removeOpenImg() {
     //   const currentOpenImg = document.querySelector('.lightbox.is-open');
     //  if (evt.target === evt.currentTarget) {
     //      return;
     //  }
         modalRef.classList.remove('is-open');
         modalImgRef.src = '';
-  modalImgRef.alt = '';
+        modalImgRef.alt = '';
   window.removeEventListener("keyup", clickKey);
    
   };
@@ -63,3 +65,11 @@ function clickKey(evt) {
     removeOpenImg();
   }
 }
+window.addEventListener('keydown', evt => {
+  if (evt.code === 'ArrowRight') {
+    onArrowRight();
+  }
+  if (evt.code === 'ArrowLeft') {
+    onArrowLeft();
+  }
+});
